@@ -26,6 +26,9 @@ class HomeViewModel(
     private val _itemsByCategory: MutableStateFlow<Resource> = MutableStateFlow(Resource.Loading)
     val itemsByCategory: StateFlow<Resource> get() = _itemsByCategory
 
+    private val _categories: MutableStateFlow<Resource> = MutableStateFlow(Resource.Loading)
+    val categories: StateFlow<Resource> get() = _categories
+
     fun getAllItems() = viewModelScope.launch {
         try {
             fetchItems.invoke().collect { items ->
@@ -38,13 +41,29 @@ class HomeViewModel(
         }
     }
 
-    fun getItemsByCategory(category: Category) {
+    fun getCategories() = viewModelScope.launch {
         try {
+            fetchCategories.invoke().collect { categories ->
+                _categories.value = Resource.Success(categories)
+            }
+        } catch (e: HttpException) {
+            _categories.value = Resource.Error(e.localizedMessage ?: "Unable to connect to the internet")
+        } catch (e: IOException) {
+            _categories.value = Resource.Error(e.localizedMessage ?: "An unknown error occurred")
+        }
+    }
 
-        }catch (e: HttpException){
-            _itemsByCategory.value = Resource.Error(e.localizedMessage ?: "Unable to connect to the internet")
-        }catch (e: IOException){
-            _itemsByCategory.value = Resource.Error(e.localizedMessage?: "An unknown error occurred")
+    fun getItemsByCategory(category: Category) {
+        viewModelScope.launch {
+            try {
+                fetchItemsByCategory.invoke(category).collect { itemsByCategory ->
+                    _itemsByCategory.value = Resource.Success(itemsByCategory)
+                }
+            } catch (e: HttpException) {
+                _itemsByCategory.value = Resource.Error(e.localizedMessage ?: "Unable to connect to the internet")
+            } catch (e: IOException) {
+                _itemsByCategory.value = Resource.Error(e.localizedMessage ?: "An unknown error occurred")
+            }
         }
     }
 }
