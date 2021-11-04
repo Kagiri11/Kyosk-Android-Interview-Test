@@ -1,16 +1,16 @@
 package com.example.remote
 
-import com.example.domain.models.CategoriesResponse
-import com.example.domain.models.ItemsResponse
+import com.example.domain.models.Categories
+import com.example.domain.models.Items
 import retrofit2.Response
 import retrofit2.http.GET
 
 interface ApiService {
 
     @GET("items.json")
-    suspend fun fetchItems(): Response<ItemsResponse>
+    suspend fun fetchItems(): Response<Items>
 
     @GET("categories.json")
-    suspend fun fetchCategories(): Response<CategoriesResponse>
+    suspend fun fetchCategories(): Response<Categories>
 
 }

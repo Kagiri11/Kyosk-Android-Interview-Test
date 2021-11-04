@@ -1,5 +1,5 @@
 package com.example.domain.models
 
-data class CategoriesResponse(
+data class Categories(
     val categories: List<Category>
 )
