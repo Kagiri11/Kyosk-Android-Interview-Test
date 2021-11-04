@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.cache.models.CategoryEntity
 import com.example.cache.models.ItemEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ItemsDbDao {
@@ -13,9 +14,18 @@ interface ItemsDbDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertItem(itemEntity: ItemEntity)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertCategory(category: CategoryEntity)
+
     @Query("SELECT * FROM items_table")
-    suspend fun getItems(): List<ItemEntity>
+    fun getItems(): Flow<List<ItemEntity>>
 
     @Query("SELECT * FROM items_table WHERE category =:category")
-    suspend fun getItemsByCategory(category: CategoryEntity): List<ItemEntity>
+    fun getItemsByCategory(category: CategoryEntity): Flow<List<ItemEntity>>
+
+    @Query("SELECT COUNT (*) FROM categories_table")
+    fun isCategoriesTableEmpty(): Int
+
+    @Query("SELECT * FROM categories_table")
+    fun getCategories(): Flow<List<CategoryEntity>>
 }

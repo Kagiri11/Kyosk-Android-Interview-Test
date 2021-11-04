@@ -20,6 +20,11 @@ class HomeViewModel(
     private val fetchItemsByCategory: FetchItemsByCategory
 ) : ViewModel() {
 
+    init {
+        getAllItems()
+        getCategories()
+    }
+
     private val _allItems: MutableStateFlow<Resource> = MutableStateFlow(Resource.Loading)
     val allItems: StateFlow<Resource> get() = _allItems
 

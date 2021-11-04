@@ -1,7 +1,7 @@
 package com.example.remote.models
 
 data class ItemDto(
-    val category: String,
+    val category: CategoryDto,
     val description: String,
     val id: Int,
     val image: String,
