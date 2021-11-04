@@ -1,0 +1,16 @@
+package com.example.cache.models
+
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity
+data class ItemEntity(
+    val category: CategoryEntity,
+    val description: String,
+    @PrimaryKey(autoGenerate = false)
+    val id: Int,
+    val image: String,
+    val price: Int,
+    val rating: RatingEntity,
+    val title: String
+)

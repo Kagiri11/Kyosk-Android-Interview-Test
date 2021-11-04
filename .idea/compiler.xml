@@ -3,6 +3,7 @@
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="1.7">
       <module name="KyoskTest.app" target="1.8" />
+      <module name="KyoskTest.data.cache" target="1.8" />
       <module name="KyoskTest.data.remote" target="1.8" />
       <module name="KyoskTest.data.repository" target="1.8" />
     </bytecodeTargetLevel>
