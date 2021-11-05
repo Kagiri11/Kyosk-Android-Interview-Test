@@ -3,7 +3,6 @@ package com.example.repository.mappers
 import com.example.cache.models.CategoryEntity
 import com.example.cache.models.ItemEntity
 import com.example.cache.models.RatingEntity
-import com.example.domain.models.*
 import com.example.remote.models.*
 
 fun CategoryDto.toEntity(): CategoryEntity {
@@ -22,7 +21,7 @@ fun RatingDto.toEntity(): RatingEntity {
 
 fun ItemDto.toEntity(): ItemEntity {
     return ItemEntity(
-        category = category.toEntity(),
+        category = category,
         description = description,
         id = id,
         image = image,

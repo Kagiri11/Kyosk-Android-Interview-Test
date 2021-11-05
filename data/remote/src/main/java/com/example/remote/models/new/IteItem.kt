@@ -1,11 +1,11 @@
-package com.example.remote.models
+package com.example.remote.models.new
 
-data class ItemDto(
+data class IteItem(
     val category: String,
     val description: String,
     val id: Int,
     val image: String,
     val price: Int,
-    val rating: RatingDto,
+    val rating: Rating,
     val title: String
 )

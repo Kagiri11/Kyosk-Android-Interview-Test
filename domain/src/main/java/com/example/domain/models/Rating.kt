@@ -2,5 +2,5 @@ package com.example.domain.models
 
 data class Rating(
     val quantity: Int,
-    val rate: Int
+    val rate: Float
 )

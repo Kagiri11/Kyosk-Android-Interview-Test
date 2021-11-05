@@ -22,7 +22,7 @@ fun RatingEntity.toDomain(): Rating {
 
 fun ItemEntity.toDomain(): Item {
     return Item(
-        category = category.toDomain(),
+        category = category,
         description = description,
         id = id,
         image = image,

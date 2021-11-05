@@ -7,6 +7,9 @@ android {
     compileSdk 30
 
     defaultConfig {
+        configurations.all {
+            resolutionStrategy { force 'androidx.core:core-ktx:1.6.0' }
+        }
         applicationId "com.example.kyosktest"
         minSdk 24
         targetSdk 30
@@ -37,6 +40,9 @@ android {
 dependencies {
 
     implementation project(path: ':domain')
+    implementation project(path: ':data:cache')
+    implementation project(path: ':data:remote')
+    implementation project(path: ':data:repository')
 
     //Koin
     implementation "io.insert-koin:koin-android:$koin_version"
@@ -46,8 +52,6 @@ dependencies {
     //Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
     implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
-
-
 
     //Load Images
     implementation "com.github.bumptech.glide:glide:$glide_version"

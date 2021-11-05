@@ -1,7 +1,7 @@
 package com.example.domain.models
 
 data class Item(
-    val category: Category,
+    val category: String,
     val description: String,
     val id: Int,
     val image: String,

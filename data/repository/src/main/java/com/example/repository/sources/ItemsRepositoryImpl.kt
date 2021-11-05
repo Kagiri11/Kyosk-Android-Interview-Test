@@ -33,12 +33,8 @@ class ItemsRepositoryImpl(
         database.itemDao().insertCategory(categoryEntity)
 
     override suspend fun fetchItems(): List<Item> {
-        return if (network.fetchItems().isSuccessful) {
-            val items = network.fetchItems()
-            items.body()!!.items.map { it.toEntity().toDomain() }
-        } else {
-            emptyList<Item>()
-        }
+        val items = network.fetchItems()
+        return items.map { it.toEntity().toDomain() }
     }
 
     override suspend fun fetchCategories(): Flow<List<com.example.domain.models.Category>> {
@@ -48,7 +44,7 @@ class ItemsRepositoryImpl(
         return if (isCategoriesTableEmpty) {
             database.itemDao().getCategories().map { it.map { it.toDomain() } }
         } else {
-            val categories = network.fetchCategories().body()!!.categories
+            val categories = network.fetchCategories().categories
             categories.map { it.toEntity() }.forEach {
                 _categories.value = it
             }
@@ -58,7 +54,8 @@ class ItemsRepositoryImpl(
 
     override suspend fun fetchItemsByCategory(category: com.example.domain.models.Category): List<Item> {
         return fetchItems().filter {
-            it.category.description == category.description
+//            it.category.description == category.description
+            it.category == category.code
         }
     }
 }

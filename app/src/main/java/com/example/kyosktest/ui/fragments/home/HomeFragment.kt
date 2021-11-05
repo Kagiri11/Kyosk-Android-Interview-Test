@@ -1,21 +1,45 @@
 package com.example.kyosktest.ui.fragments.home
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.kyosktest.R
-
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import com.example.domain.models.Item
+import com.example.kyosktest.databinding.FragmentHomeBinding
+import com.example.kyosktest.ui.adapters.OffersAdapter
+import com.example.kyosktest.utils.Resource
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : Fragment() {
-
+    private lateinit var binding: FragmentHomeBinding
+    private val viewModel: HomeViewModel by viewModel()
+    private val offersAdapter = OffersAdapter()
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
-    }
+        binding = FragmentHomeBinding.inflate(layoutInflater)
 
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.allItems.collect {
+                when (it) {
+                    is Resource.Success -> {
+                        offersAdapter.differ.submitList(it.data as List<Item>)
+                        binding.rvRandomProducts.adapter = offersAdapter
+                    }
+                    is Resource.Error -> {
+                    }
+                    is Resource.Loading -> {
+                    }
+                }
+            }
+        }
+
+        return binding.root
+    }
 }

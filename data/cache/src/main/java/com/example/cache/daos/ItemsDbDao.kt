@@ -15,7 +15,7 @@ interface ItemsDbDao {
     suspend fun insertItem(itemEntity: ItemEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertCategory(category: CategoryEntity)
+    fun insertCategory(category: CategoryEntity)
 
     @Query("SELECT * FROM items_table")
     fun getItems(): Flow<List<ItemEntity>>

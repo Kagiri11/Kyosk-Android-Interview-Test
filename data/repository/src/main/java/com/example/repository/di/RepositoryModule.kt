@@ -5,5 +5,5 @@ import com.example.repository.sources.ItemsRepositoryImpl
 import org.koin.dsl.module
 
 val repositoryModule = module {
-    single<ItemsRepository> { ItemsRepositoryImpl(get()) }
+    single<ItemsRepository> { ItemsRepositoryImpl(get(), get()) }
 }

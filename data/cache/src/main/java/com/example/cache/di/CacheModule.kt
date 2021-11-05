@@ -12,7 +12,9 @@ val cacheModule = module {
             androidApplication(),
             AppDataBase::class.java,
             "app_database"
-        ).fallbackToDestructiveMigration().build()
+        ).fallbackToDestructiveMigration()
+            .allowMainThreadQueries()
+            .build()
     }
     single { get<AppDataBase>().itemDao() }
 }
