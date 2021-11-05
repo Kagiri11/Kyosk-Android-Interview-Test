@@ -1,4 +1,4 @@
-package com.example.kyosktest.ui.home
+package com.example.kyosktest.ui.fragments.home
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

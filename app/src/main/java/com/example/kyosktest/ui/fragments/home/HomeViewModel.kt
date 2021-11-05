@@ -1,4 +1,4 @@
-package com.example.kyosktest.ui.home
+package com.example.kyosktest.ui.fragments.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
