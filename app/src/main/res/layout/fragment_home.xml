@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="15dp"
             android:fontFamily="@font/poppins_semibold"
             android:text="@string/top_greeting"
             app:layout_constraintStart_toStartOf="parent"
@@ -25,7 +25,7 @@
 
         <androidx.appcompat.widget.SearchView
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="45dp"
             android:id="@+id/search_bar"
             android:background="@color/white"
             app:searchIcon="@drawable/ic_search"
@@ -77,21 +77,25 @@
                         android:id="@+id/tv_categories"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/categories"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
                         android:layout_marginStart="20dp"
-                        android:layout_marginTop="10dp"/>
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="@string/categories"
+                        android:textColor="@color/categories_color"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="20dp"
+                        android:fontFamily="@font/poppins_medium"
                         android:text="@string/view_all"
-                        app:layout_constraintTop_toTopOf="@id/tv_categories"
+                        android:textColor="@color/view_all_color"
                         app:layout_constraintBottom_toBottomOf="@id/tv_categories"
                         app:layout_constraintEnd_toEndOf="parent"
-                        android:layout_marginEnd="20dp"/>
+                        app:layout_constraintTop_toTopOf="@id/tv_categories" />
 
                     <HorizontalScrollView
                         app:layout_constraintTop_toBottomOf="@id/tv_categories"
@@ -142,21 +146,24 @@
                     </HorizontalScrollView>
 
 
-
                     <TextView
                         android:id="@+id/tv_food_categories"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/food_products"
-                        app:layout_constraintTop_toBottomOf="@id/chip_layout"
-                        app:layout_constraintStart_toStartOf="parent"
                         android:layout_marginStart="20dp"
-                        android:layout_marginTop="10dp"/>
+                        android:layout_marginTop="10dp"
+                        android:textColor="@color/categories_color"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="@string/food_products"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/chip_layout" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/view_all"
+                        android:textColor="@color/view_all_color"
+                        android:fontFamily="@font/poppins_medium"
                         app:layout_constraintTop_toTopOf="@id/tv_food_categories"
                         app:layout_constraintBottom_toBottomOf="@id/tv_food_categories"
                         app:layout_constraintEnd_toEndOf="parent"

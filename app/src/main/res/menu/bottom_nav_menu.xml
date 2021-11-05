@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/homeFragment"
-        android:icon="@drawable/ic_home"
-        android:title="Home"/>
+        android:icon="@drawable/ic_home_new_foreground"
+        android:title="HOME"/>
+    <item android:id="@+id/cart"
+        android:icon="@drawable/ic_shopping_cart"
+        android:title="CART"/>
     <item android:id="@+id/settingsFragment"
         android:icon="@drawable/ic_settings"
-        android:title="Settings"/>
+        android:title="SETTINGS"/>
 </menu>

@@ -1,5 +1,6 @@
 package com.example.kyosktest.ui.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -28,14 +29,15 @@ class ProductsAdapter : RecyclerView.Adapter<ProductsAdapter.ProductsViewHolder>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductsViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val binding: ItemProductBinding = ItemProductBinding.inflate(layoutInflater, parent,false)
+        val binding: ItemProductBinding = ItemProductBinding.inflate(layoutInflater, parent, false)
         return ProductsViewHolder(binding)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ProductsViewHolder, position: Int) {
         val item = differ.currentList[position]
         holder.binding.apply {
-            tvProductPrice.text = item.price.toString()
+            tvProductPrice.text = "Kes ${item.price}"
             tvProductName.text = item.title
             Glide.with(this.root)
                 .load(item.image)
