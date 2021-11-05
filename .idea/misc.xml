@@ -4,10 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable/home_layout_card.xml" value="0.18697916666666667" />
+        <entry key="app/src/main/res/font/fontfamilies.xml" value="0.20104166666666667" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.17083333333333334" />
-        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.21" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.35382955771305286" />
         <entry key="app/src/main/res/layout/item_offer.xml" value="0.17083333333333334" />
-        <entry key="app/src/main/res/layout/item_product.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/item_product.xml" value="0.5" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.17083333333333334" />
       </map>
     </option>

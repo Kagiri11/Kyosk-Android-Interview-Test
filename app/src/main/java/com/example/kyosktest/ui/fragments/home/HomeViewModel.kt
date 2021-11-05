@@ -28,6 +28,12 @@ class HomeViewModel(
     private val _allItems: MutableStateFlow<Resource> = MutableStateFlow(Resource.Loading)
     val allItems: StateFlow<Resource> get() = _allItems
 
+    private val _nonFoodProducts: MutableStateFlow<Resource> = MutableStateFlow(Resource.Loading)
+    val nonFoodProducts: StateFlow<Resource> get() = _nonFoodProducts
+
+    private val _foodProducts: MutableStateFlow<Resource> = MutableStateFlow(Resource.Loading)
+    val foodProducts: StateFlow<Resource> get() = _foodProducts
+
     private val _itemsByCategory: MutableStateFlow<Resource> = MutableStateFlow(Resource.Loading)
     val itemsByCategory: StateFlow<Resource> get() = _itemsByCategory
 
@@ -37,7 +43,11 @@ class HomeViewModel(
     fun getAllItems() = viewModelScope.launch {
         try {
             fetchItems.invoke().collect { items ->
+                val nonFood = items.filter { it.category == "INV4OTC" }
+                val food = items.filter { it.category != "INV4OTC" }
                 _allItems.value = Resource.Success(items)
+                _foodProducts.value = Resource.Success(food)
+                _nonFoodProducts.value = Resource.Success(nonFood)
             }
         } catch (e: HttpException) {
             _allItems.value = Resource.Error(e.localizedMessage ?: "Unable to connect to the internet")

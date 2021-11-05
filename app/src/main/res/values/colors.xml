@@ -9,6 +9,7 @@
     <color name="white">#FFFFFFFF</color>
 
 
-    <color name="top_greyish">#B0ABA7A7</color>
-    <color name="back_yellow">#FFE500</color>
+    <color name="top_greyish">#E9E9E9</color>
+    <color name="back_yellow">#F7CC00</color>
+    <color name="price_color">#15920C</color>
 </resources>

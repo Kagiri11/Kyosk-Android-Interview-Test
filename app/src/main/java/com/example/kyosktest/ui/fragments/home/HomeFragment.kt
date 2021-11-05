@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.domain.models.Item
 import com.example.kyosktest.databinding.FragmentHomeBinding
 import com.example.kyosktest.ui.adapters.OffersAdapter
+import com.example.kyosktest.ui.adapters.ProductsAdapter
 import com.example.kyosktest.utils.Resource
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -24,6 +25,38 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentHomeBinding.inflate(layoutInflater)
+
+        lifecycleScope.launch {
+            viewModel.nonFoodProducts.collect {
+                val productsAdapter = ProductsAdapter()
+                when (it) {
+                    is Resource.Success -> {
+                        productsAdapter.differ.submitList(it.data as List<Item>)
+                        binding.rvNonFoodCategories.adapter = productsAdapter
+                    }
+                    is Resource.Loading -> {
+                    }
+                    is Resource.Error -> {
+                    }
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            viewModel.foodProducts.collect {
+                val productsAdapter = ProductsAdapter()
+                when (it) {
+                    is Resource.Success -> {
+                        productsAdapter.differ.submitList(it.data as List<Item>)
+                        binding.rvFoodCategories.adapter = productsAdapter
+                    }
+                    is Resource.Loading -> {
+                    }
+                    is Resource.Error -> {
+                    }
+                }
+            }
+        }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.allItems.collect {
