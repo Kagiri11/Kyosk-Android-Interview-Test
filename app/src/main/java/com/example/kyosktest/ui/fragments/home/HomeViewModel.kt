@@ -1,5 +1,7 @@
 package com.example.kyosktest.ui.fragments.home
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bumptech.glide.load.HttpException
@@ -8,8 +10,6 @@ import com.example.domain.usecases.FetchCategories
 import com.example.domain.usecases.FetchItems
 import com.example.domain.usecases.FetchItemsByCategory
 import com.example.kyosktest.utils.Resource
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -23,22 +23,25 @@ class HomeViewModel(
     init {
         getAllItems()
         getCategories()
+        getItemsByCategory("INV4OTC")
     }
 
-    private val _allItems: MutableStateFlow<Resource> = MutableStateFlow(Resource.Loading)
-    val allItems: StateFlow<Resource> get() = _allItems
+    private val _allItems: MutableLiveData<Resource> = MutableLiveData(Resource.Loading)
+    val allItems: LiveData<Resource> get() = _allItems
 
-    private val _nonFoodProducts: MutableStateFlow<Resource> = MutableStateFlow(Resource.Loading)
-    val nonFoodProducts: StateFlow<Resource> get() = _nonFoodProducts
+    private val _nonFoodProducts: MutableLiveData<Resource> = MutableLiveData(Resource.Loading)
+    val nonFoodProducts: LiveData<Resource> get() = _nonFoodProducts
 
-    private val _foodProducts: MutableStateFlow<Resource> = MutableStateFlow(Resource.Loading)
-    val foodProducts: StateFlow<Resource> get() = _foodProducts
+    private val _foodProducts: MutableLiveData<Resource> = MutableLiveData(Resource.Loading)
+    val foodProducts: LiveData<Resource> get() = _foodProducts
 
-    private val _itemsByCategory: MutableStateFlow<Resource> = MutableStateFlow(Resource.Loading)
-    val itemsByCategory: StateFlow<Resource> get() = _itemsByCategory
+    private val _itemsByCategory: MutableLiveData<Resource> = MutableLiveData(Resource.Loading)
+    val itemsByCategory: MutableLiveData<Resource> get() = _itemsByCategory
 
-    private val _categories: MutableStateFlow<Resource> = MutableStateFlow(Resource.Loading)
-    val categories: StateFlow<Resource> get() = _categories
+    private val _categories: MutableLiveData<Resource> = MutableLiveData(Resource.Loading)
+    val categories: LiveData<Resource> get() = _categories
+
+    var categoriesList = mutableListOf<Category>()
 
     fun getAllItems() = viewModelScope.launch {
         try {
@@ -50,7 +53,8 @@ class HomeViewModel(
                 _nonFoodProducts.value = Resource.Success(nonFood)
             }
         } catch (e: HttpException) {
-            _allItems.value = Resource.Error(e.localizedMessage ?: "Unable to connect to the internet")
+            _allItems.value =
+                Resource.Error(e.localizedMessage ?: "Unable to connect to the internet")
         } catch (e: IOException) {
             _allItems.value = Resource.Error(e.localizedMessage ?: "An unknown error occurred")
         }
@@ -62,22 +66,33 @@ class HomeViewModel(
                 _categories.value = Resource.Success(categories)
             }
         } catch (e: HttpException) {
-            _categories.value = Resource.Error(e.localizedMessage ?: "Unable to connect to the internet")
+            _categories.value =
+                Resource.Error(e.localizedMessage ?: "Unable to connect to the internet")
         } catch (e: IOException) {
             _categories.value = Resource.Error(e.localizedMessage ?: "An unknown error occurred")
         }
     }
 
-    fun getItemsByCategory(category: Category) {
+    fun getItemsByCategory(category: String) {
         viewModelScope.launch {
+
+            fetchCategories.invoke().collect {
+                categoriesList = it.toMutableList()
+            }
+
             try {
+//                val categoryCode = categoriesList.find { it.description == category }
                 fetchItemsByCategory.invoke(category).collect { itemsByCategory ->
+//                    val nonFood = itemsByCategory.filter { it.category == category }
+//                    val food = itemsByCategory.filter { it.category != category }
                     _itemsByCategory.value = Resource.Success(itemsByCategory)
                 }
             } catch (e: HttpException) {
-                _itemsByCategory.value = Resource.Error(e.localizedMessage ?: "Unable to connect to the internet")
+                _itemsByCategory.value =
+                    Resource.Error(e.localizedMessage ?: "Unable to connect to the internet")
             } catch (e: IOException) {
-                _itemsByCategory.value = Resource.Error(e.localizedMessage ?: "An unknown error occurred")
+                _itemsByCategory.value =
+                    Resource.Error(e.localizedMessage ?: "An unknown error occurred")
             }
         }
     }

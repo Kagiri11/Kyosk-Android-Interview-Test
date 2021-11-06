@@ -3,6 +3,7 @@ package com.example.repository.sources
 import androidx.lifecycle.MutableLiveData
 import com.example.cache.AppDataBase
 import com.example.cache.models.CategoryEntity
+import com.example.cache.models.ItemEntity
 import com.example.domain.models.Item
 import com.example.domain.repositories.ItemsRepository
 import com.example.remote.ApiService
@@ -11,6 +12,7 @@ import com.example.repository.mappers.toEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
@@ -20,6 +22,7 @@ class ItemsRepositoryImpl(
 ) : ItemsRepository {
 
     private val _categories = MutableLiveData<CategoryEntity>()
+    private val _items = MutableLiveData<ItemEntity>()
 
     init {
         _categories.observeForever {
@@ -27,14 +30,30 @@ class ItemsRepositoryImpl(
                 saveCategoryToDb(it)
             }
         }
+        _items.observeForever {
+            CoroutineScope(Dispatchers.IO).launch {
+                saveItemToDb(it)
+            }
+        }
     }
 
     private suspend fun saveCategoryToDb(categoryEntity: CategoryEntity) =
         database.itemDao().insertCategory(categoryEntity)
 
-    override suspend fun fetchItems(): List<Item> {
-        val items = network.fetchItems()
-        return items.map { it.toEntity().toDomain() }
+    private suspend fun saveItemToDb(itemEntity: ItemEntity) = database.itemDao().insertItem(itemEntity)
+
+    override suspend fun fetchItems(): Flow<List<Item>> {
+        val isItemsTableNotEmpty = database.itemDao().isItemsTableEmpty() > 0
+
+        return if (isItemsTableNotEmpty) {
+            database.itemDao().getItems().map { it.map { it.toDomain() } }
+        } else {
+            val items = network.fetchItems()
+            items.map { it.toEntity() }.forEach {
+                _items.value = it
+            }
+            flowOf(items.map { it.toEntity().toDomain() })
+        }
     }
 
     override suspend fun fetchCategories(): Flow<List<com.example.domain.models.Category>> {
@@ -52,10 +71,10 @@ class ItemsRepositoryImpl(
         }
     }
 
-    override suspend fun fetchItemsByCategory(category: com.example.domain.models.Category): List<Item> {
-        return fetchItems().filter {
-//            it.category.description == category.description
-            it.category == category.code
+    override suspend fun fetchItemsByCategory(category: String): List<Item> {
+        val items = network.fetchItems().map { it.toEntity().toDomain() }
+        return items.filter {
+            it.category == category
         }
     }
 }

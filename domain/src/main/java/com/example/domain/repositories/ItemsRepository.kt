@@ -6,9 +6,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface ItemsRepository {
 
-    suspend fun fetchItems(): List<Item>
+    suspend fun fetchItems(): Flow<List<Item>>
 
     suspend fun fetchCategories(): Flow<List<Category>>
 
-    suspend fun fetchItemsByCategory(category: Category): List<Item>
+    suspend fun fetchItemsByCategory(category: String): List<Item>
 }
