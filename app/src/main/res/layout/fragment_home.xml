@@ -114,6 +114,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="50dp"
                                 android:checkable="true"
+                                android:id="@+id/allChip"
                                 android:textAlignment="center"
                                 android:checked="true"
                                 android:text="All"/>
@@ -122,22 +123,26 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="50dp"
                                 android:checkable="true"
+                                android:id="@+id/cookingOilChip"
                                 android:text="Cooking Oil"/>
 
                             <com.google.android.material.chip.Chip
                                 android:layout_width="wrap_content"
                                 android:layout_height="50dp"
+                                android:id="@+id/wheatFlourChip"
                                 android:checkable="true"
                                 android:text="Wheat Flour"/>
                             <com.google.android.material.chip.Chip
                                 android:layout_width="wrap_content"
                                 android:layout_height="50dp"
                                 android:checkable="true"
+                                android:id="@+id/maizeFlourChip"
                                 android:text="Maize Flour"/>
 
                             <com.google.android.material.chip.Chip
                                 android:layout_width="wrap_content"
                                 android:layout_height="50dp"
+                                android:id="@+id/ricChip"
                                 android:checkable="true"
                                 android:text="Rice"/>
 
