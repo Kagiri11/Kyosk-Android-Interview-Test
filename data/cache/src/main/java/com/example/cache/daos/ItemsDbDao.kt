@@ -27,7 +27,7 @@ interface ItemsDbDao {
     suspend fun isCategoriesTableEmpty(): Int
 
     @Query("SELECT COUNT (*) FROM items_table")
-    suspend fun isItemsTableEmpty(): Int
+    suspend fun countItemsTable(): Int
 
     @Query("SELECT * FROM categories_table")
     fun getCategories(): Flow<List<CategoryEntity>>
