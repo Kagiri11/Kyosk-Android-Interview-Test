@@ -10,6 +10,7 @@ import com.example.domain.usecases.FetchCategories
 import com.example.domain.usecases.FetchItems
 import com.example.domain.usecases.FetchItemsByCategory
 import com.example.kyosktest.utils.Resource
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -23,7 +24,6 @@ class HomeViewModel(
     init {
         getAllItems()
         getCategories()
-        getItemsByCategory("INV4OTC")
     }
 
     private val _allItems: MutableLiveData<Resource> = MutableLiveData(Resource.Loading)
@@ -36,12 +36,9 @@ class HomeViewModel(
     val foodProducts: LiveData<Resource> get() = _foodProducts
 
     private val _itemsByCategory: MutableLiveData<Resource> = MutableLiveData(Resource.Loading)
-    val itemsByCategory: MutableLiveData<Resource> get() = _itemsByCategory
+    val itemsByCategory: LiveData<Resource> get() = _itemsByCategory
 
-    private val _categories: MutableLiveData<Resource> = MutableLiveData(Resource.Loading)
-    val categories: LiveData<Resource> get() = _categories
-
-    var categoriesList = mutableListOf<Category>()
+    var categoriesList = listOf<Category>()
 
     fun getAllItems() = viewModelScope.launch {
         try {
@@ -61,38 +58,47 @@ class HomeViewModel(
     }
 
     fun getCategories() = viewModelScope.launch {
-        try {
-            fetchCategories.invoke().collect { categories ->
-                _categories.value = Resource.Success(categories)
-            }
-        } catch (e: HttpException) {
-            _categories.value =
-                Resource.Error(e.localizedMessage ?: "Unable to connect to the internet")
-        } catch (e: IOException) {
-            _categories.value = Resource.Error(e.localizedMessage ?: "An unknown error occurred")
+        fetchCategories.invoke().collect { categories ->
+            categoriesList = categories
         }
     }
 
     fun getItemsByCategory(category: String) {
-        viewModelScope.launch {
+        if (category == "ALl") {
+            getAllItems()
+        } else {
+            viewModelScope.apply {
+                launch {
+                    fetchCategories.invoke().collect {
+                        categoriesList = it.toMutableList()
+                        val categoryRequested = it.find { it.description == category }
 
-            fetchCategories.invoke().collect {
-                categoriesList = it.toMutableList()
-            }
-
-            try {
-//                val categoryCode = categoriesList.find { it.description == category }
-                fetchItemsByCategory.invoke(category).collect { itemsByCategory ->
-//                    val nonFood = itemsByCategory.filter { it.category == category }
-//                    val food = itemsByCategory.filter { it.category != category }
-                    _itemsByCategory.value = Resource.Success(itemsByCategory)
+                        println("This is the requested category: ${categoriesList.size}")
+                    }
                 }
-            } catch (e: HttpException) {
-                _itemsByCategory.value =
-                    Resource.Error(e.localizedMessage ?: "Unable to connect to the internet")
-            } catch (e: IOException) {
-                _itemsByCategory.value =
-                    Resource.Error(e.localizedMessage ?: "An unknown error occurred")
+                launch {
+                    delay(1000)
+                    try {
+                        val cat =
+                            categoriesList.find { it.description == category } ?: Category("", "")
+                        fetchItemsByCategory.invoke(cat.code).collect { itemsByCategory ->
+                            println("This is the list by requested category: ${itemsByCategory.size}")
+                            val nonFood = itemsByCategory.filter { it.category == "INV4OTC" }
+                            val food = itemsByCategory.filter { it.category != "INV4OTC" }
+                            _foodProducts.value = Resource.Success(food)
+                            _nonFoodProducts.value = Resource.Success(nonFood)
+                            _itemsByCategory.value = Resource.Success(itemsByCategory)
+                        }
+                    } catch (e: HttpException) {
+                        _itemsByCategory.value =
+                            Resource.Error(
+                                e.localizedMessage ?: "Unable to connect to the internet"
+                            )
+                    } catch (e: IOException) {
+                        _itemsByCategory.value =
+                            Resource.Error(e.localizedMessage ?: "An unknown error occurred")
+                    }
+                }
             }
         }
     }

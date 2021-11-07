@@ -71,10 +71,8 @@ class ItemsRepositoryImpl(
         }
     }
 
-    override suspend fun fetchItemsByCategory(category: String): List<Item> {
-        val items = network.fetchItems().map { it.toEntity().toDomain() }
-        return items.filter {
-            it.category == category
-        }
+    override suspend fun fetchItemsByCategory(category: String): Flow<List<Item>> {
+        val dbCategoriesItems = database.itemDao().getItemsByCategory(category)
+        return dbCategoriesItems.map { it.map { it.toDomain() } }
     }
 }

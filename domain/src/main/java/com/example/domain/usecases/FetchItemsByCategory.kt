@@ -8,6 +8,6 @@ import kotlinx.coroutines.flow.flowOf
 class FetchItemsByCategory(private val repository: ItemsRepository) {
     suspend operator fun invoke(category: String): Flow<List<Item>> {
         val items = repository.fetchItemsByCategory(category)
-        return flowOf(items)
+        return items
     }
 }

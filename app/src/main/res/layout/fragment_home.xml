@@ -116,7 +116,6 @@
                                 android:checkable="true"
                                 android:id="@+id/allChip"
                                 android:textAlignment="center"
-                                android:checked="true"
                                 android:text="All"/>
 
                             <com.google.android.material.chip.Chip
@@ -125,6 +124,13 @@
                                 android:checkable="true"
                                 android:id="@+id/cookingOilChip"
                                 android:text="Cooking Oil"/>
+
+                            <com.google.android.material.chip.Chip
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:checkable="true"
+                                android:id="@+id/soapChip"
+                                android:text="Soap"/>
 
                             <com.google.android.material.chip.Chip
                                 android:layout_width="wrap_content"
@@ -151,6 +157,7 @@
                     </HorizontalScrollView>
 
 
+
                     <TextView
                         android:id="@+id/tv_food_categories"
                         android:layout_width="wrap_content"
@@ -162,6 +169,19 @@
                         android:text="@string/food_products"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/chip_layout" />
+                    <TextView
+                        android:id="@+id/tv_by_categories"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="10dp"
+                        android:textColor="@color/categories_color"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="@string/by_categories"
+                        android:visibility="invisible"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/chip_layout" />
+
 
                     <TextView
                         android:layout_width="wrap_content"

@@ -10,5 +10,5 @@ interface ItemsRepository {
 
     suspend fun fetchCategories(): Flow<List<Category>>
 
-    suspend fun fetchItemsByCategory(category: String): List<Item>
+    suspend fun fetchItemsByCategory(category: String): Flow<List<Item>>
 }
