@@ -41,13 +41,12 @@ This layer plays host to artifacts responsible for information presentation to t
 
 # Screenshots
 These are the app's screenshots:
+<p align="center">
+<img src="https://user-images.githubusercontent.com/59829833/140731360-ca9fde55-4111-440f-97c1-d98b4ea2c68d.png" width="250"/>
+<img src="https://user-images.githubusercontent.com/59829833/140731513-c7a0482b-89ab-4631-8198-e23438359ddb.png" width="250"/> 
+</p>
 
-<img src="assets/img1.png" width="250"/><img src="assets/img1.1.png" width="250"/> <img src="assets/img2.png" width="250"/>
-
-<img src="assets/img3.png" width="250"/> <img src="assets/img3.1.png" width="250"/> <img src="assets/img4.png" width="250"/>
-
-<img src="assets/img5.png" width="250"/> <img src="assets/img5.1.png" width="250"/> <img src="assets/img6.png" width="250"/>
-
-<img src="assets/img7.png" width="250"/>
+# App
+Please get the app [here](https://drive.google.com/drive/folders/1F9M38nOzzqMG3GS98WLN1_D6XcPbINkh?usp=sharing)
  
 
