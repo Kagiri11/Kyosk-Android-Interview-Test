@@ -43,7 +43,7 @@ class ItemsRepositoryImpl(
     private suspend fun saveItemToDb(itemEntity: ItemEntity) = database.itemDao().insertItem(itemEntity)
 
     override suspend fun fetchItems(): Flow<List<Item>> {
-        val isItemsTableNotEmpty = database.itemDao().isItemsTableEmpty() > 0
+        val isItemsTableNotEmpty = database.itemDao().countItemsTable() > 0
 
         return if (isItemsTableNotEmpty) {
             database.itemDao().getItems().map { it.map { it.toDomain() } }
@@ -58,7 +58,7 @@ class ItemsRepositoryImpl(
 
     override suspend fun fetchCategories(): Flow<List<com.example.domain.models.Category>> {
 
-        val isCategoriesTableEmpty = database.itemDao().isCategoriesTableEmpty() > 0
+        val isCategoriesTableEmpty = database.itemDao().countCategoriesTable() > 0
 
         return if (isCategoriesTableEmpty) {
             database.itemDao().getCategories().map { it.map { it.toDomain() } }

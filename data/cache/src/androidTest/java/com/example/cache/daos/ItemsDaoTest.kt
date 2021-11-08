@@ -25,7 +25,7 @@ class ItemsDaoTest {
     private lateinit var database: AppDataBase
     private lateinit var dao: ItemsDbDao
 
-    private val itemEntity = ItemEntity("juliet", "", 11, "", 11, RatingEntity(11, 1f), "")
+    private val itemEntity = ItemEntity("item1", "", 11, "", 11, RatingEntity(11, 1f), "")
     private val itemEntity2 = ItemEntity("", "", 11, "", 11, RatingEntity(11, 1f), "")
 
     private val categoryEntity = CategoryEntity("", "")
@@ -75,7 +75,7 @@ class ItemsDaoTest {
         dao.insertItem(itemEntity)
         assertThat(dao.getItems())
         var itemsEntitiesFromDb = listOf<ItemEntity>()
-        val items = dao.getItemsByCategory("juliet")
+        val items = dao.getItemsByCategory("item1")
         items.take(1).collect {
             itemsEntitiesFromDb = it
         }
