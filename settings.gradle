@@ -8,3 +8,7 @@ dependencyResolutionManagement {
 }
 rootProject.name = "KyoskTest"
 include ':app'
+include ':domain'
+include ':data:remote'
+include ':data:repository'
+include ':data:cache'
